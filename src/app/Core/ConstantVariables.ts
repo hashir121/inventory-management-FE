@@ -4,6 +4,7 @@ export const URLS = {
             Name: 'Product/',
             AddProduct: 'add-product',
             GetAll: 'get-all',
+            Add: 'add',
         }
     }
 }

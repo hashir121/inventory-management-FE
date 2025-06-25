@@ -1,0 +1,28 @@
+<h2 mat-dialog-title>Add Product</h2>
+
+<mat-dialog-content [formGroup]="productForm">
+    <div style="display: flex; flex-direction: column; gap: 16px;">
+
+        <!-- Name Input -->
+        <div>
+            <label for="name">Name*</label>
+            <input id="name" type="text" formControlName="name" placeholder="Product name"
+                style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px;" />
+        </div>
+
+        <!-- Description Input -->
+        <div>
+            <label for="description">Description*</label>
+            <textarea id="description" formControlName="description" placeholder="Product description"
+                style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px;"></textarea>
+        </div>
+
+    </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button (click)="onCancel()">Cancel</button>
+    <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="productForm.invalid">
+        Save
+    </button>
+</mat-dialog-actions>

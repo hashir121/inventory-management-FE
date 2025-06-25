@@ -4,7 +4,8 @@
 
         <!-- Search Input Field -->
         <div style="position: relative; height: 40px;">
-            <input type="text" (input)="onSearchInput($event)" placeholder="Search"
+            <input type="text" (input)="searchInput.value = searchInput.value.trim()" placeholder="Search" #searchInput
+                (keyup)="applySearch(searchInput.value)"
                 style="padding: 0 32px 0 12px; height: 40px; width: 200px; border: 1px solid #ccc; border-radius: 6px; outline: none; font-size: 14px;" />
             <mat-icon style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); color: gray;">
                 search
@@ -48,5 +49,5 @@
 
     <!-- Paginator -->
     <mat-paginator [length]="length" [pageSizeOptions]="pageSizeOptions" [pageIndex]="pageIndex" [pageSize]="pageSize"
-        showFirstLastButtons class="custom-paginator"></mat-paginator>
+        showFirstLastButtons class="custom-paginator" (page)="onPageChange($event)"></mat-paginator>
 </div>

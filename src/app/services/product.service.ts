@@ -16,4 +16,9 @@ export class ProductService {
     const url = URLS.Controller.Product.Name + URLS.Controller.Product.GetAll;
     return this.genericService.post(url, data);
   }
+
+  add(data: any): Observable<any> {
+    const url = URLS.Controller.Product.Name + URLS.Controller.Product.Add;
+    return this.genericService.post(url, data);
+  }
 }
