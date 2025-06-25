@@ -1,1 +1,52 @@
-<p>product works!</p>
+<!-- HTML Template -->
+<div style="display: flex; margin-bottom: 16px;">
+    <div style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-left: auto;">
+
+        <!-- Search Input Field -->
+        <div style="position: relative; height: 40px;">
+            <input type="text" (input)="onSearchInput($event)" placeholder="Search"
+                style="padding: 0 32px 0 12px; height: 40px; width: 200px; border: 1px solid #ccc; border-radius: 6px; outline: none; font-size: 14px;" />
+            <mat-icon style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); color: gray;">
+                search
+            </mat-icon>
+        </div>
+
+        <!-- Add Product Button -->
+        <button mat-raised-button color="primary" (click)="onAddProduct()"
+            style="border-radius: 6px; padding: 0 16px; height: 40px; line-height: 40px;">
+            <mat-icon>add</mat-icon>
+            Add Product
+        </button>
+    </div>
+</div>
+
+<div style="margin: 0 16px;">
+    <table mat-table [dataSource]="dataSource" class="custom-table mat-elevation-z2" style="width: 100%;">
+
+        <!-- ID Column -->
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef class="custom-header">ID</th>
+            <td mat-cell *matCellDef="let element" class="custom-cell">{{ element.id }}</td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef class="custom-header">Name</th>
+            <td mat-cell *matCellDef="let element" class="custom-cell">{{ element.name }}</td>
+        </ng-container>
+
+        <!-- Description Column -->
+        <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef class="custom-header">Description</th>
+            <td mat-cell *matCellDef="let element" class="custom-cell">{{ element.description }}</td>
+        </ng-container>
+
+        <!-- Header and Row Definitions -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns" class="custom-header-row"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="custom-row"></tr>
+    </table>
+
+    <!-- Paginator -->
+    <mat-paginator [length]="length" [pageSizeOptions]="pageSizeOptions" [pageIndex]="pageIndex" [pageSize]="pageSize"
+        showFirstLastButtons class="custom-paginator"></mat-paginator>
+</div>
