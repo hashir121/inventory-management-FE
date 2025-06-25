@@ -14,6 +14,9 @@ import { PagedList } from '../../Models/Product/PagedList';
 import { MatDialog } from '@angular/material/dialog';
 import { AddProductDialogComponent } from './add-product-dialog/add-product-dialog.component';
 import { MatMenuModule } from '@angular/material/menu';
+import Swal from 'sweetalert2';
+import { DeleteResponse } from '../../Models/DeleteResponse';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -34,7 +37,8 @@ import { MatMenuModule } from '@angular/material/menu';
 })
 export class ProductComponent {
     constructor(private productService: ProductService,
-        private dialog: MatDialog
+        private dialog: MatDialog,
+        private toastr: ToastrService
     ) { }
 
     length = 0;
@@ -132,7 +136,38 @@ export class ProductComponent {
     }
 
 
-    onAdd(elem: GetPaginatedProduct) {
+    onDelete(productId: number) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'This change will be permenant',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                this.productService.delete(productId).subscribe({
+                    next: (res: DeleteResponse) => {
+                        if (res.success) {
+                            this.toastr.success(res.message, "Success")
+                            this.pageIndex = 0;
+                            this.searchText = ''
+                            this.sortBy = this.defaultSortBy
+                            this.sortDirection = this.defaultSortDirection
+                            this.loadData();
+
+                        }
+                        else {
+                            this.toastr.error(res.message, "Error")
+                        }
+                    },
+                    error: (err: Error) => {
+                        this.toastr.error(err.message, "Error")
+                    }
+                })
+            }
+        });
 
     }
     onEdit(elem: GetPaginatedProduct) {

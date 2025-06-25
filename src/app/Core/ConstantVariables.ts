@@ -6,6 +6,7 @@ export const URLS = {
             GetAll: 'get-all',
             Add: 'add',
             Update: 'update',
+            Delete: 'delete'
         }
     }
 }

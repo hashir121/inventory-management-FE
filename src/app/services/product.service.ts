@@ -26,4 +26,10 @@ export class ProductService {
     const url = URLS.Controller.Product.Name + URLS.Controller.Product.Update;
     return this.genericService.put(url, data);
   }
+
+  delete(productId: number): Observable<any> {
+    const url = URLS.Controller.Product.Name + URLS.Controller.Product.Delete + "/" + productId;
+    return this.genericService.delete(url);
+  }
+
 }
