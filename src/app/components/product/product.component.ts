@@ -17,6 +17,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import Swal from 'sweetalert2';
 import { DeleteResponse } from '../../Models/DeleteResponse';
 import { ToastrService } from 'ngx-toastr';
+import { Sort } from '@angular/material/sort'
+import { MatSortModule } from '@angular/material/sort';
 
 
 @Component({
@@ -31,7 +33,8 @@ import { ToastrService } from 'ngx-toastr';
         MatTableModule,
         MatMenuModule,
         MatIconModule,
-        MatButtonModule],
+        MatButtonModule,
+        MatSortModule],
     templateUrl: './product.component.html',
     styleUrl: './product.component.scss'
 })
@@ -190,6 +193,14 @@ export class ProductComponent {
                 this.loadData();
             }
         });
+    }
+
+    announceSort(sortState: Sort) {
+        if (sortState.direction) {
+            this.sortDirection = sortState.direction == 'asc' ? 'asc' : 'desc'
+            this.sortBy = sortState.active;
+            this.loadData();
+        }
     }
 
 }
