@@ -1,30 +1,41 @@
-<h2 mat-dialog-title>{{isEdit? "Edit Product" : "Add Product"}}</h2>
+<h2 mat-dialog-title class="mb-3">{{isEdit? "Edit Product" : "Add Product"}}</h2>
 
-<mat-dialog-content [formGroup]="productForm">
-    <div style="display: flex; flex-direction: column; gap: 16px;">
+<mat-dialog-content [formGroup]="productForm" class="p-0">
+    <div class="container-fluid">
+        <div class="row g-3">
 
-        <!-- Name Input -->
-        <div>
-            <label for="name">Name*</label>
-            <input id="name" type="text" formControlName="name" placeholder="Product name" (blur)="onNameBlur()"
-                style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px;" />
+            <!-- Name Input -->
+            <div class="col-12">
+                <label for="name" class="form-label fw-medium">Name <span class="text-danger">*</span></label>
+                <input id="name" type="text" class="form-control" formControlName="name"
+                    placeholder="Enter product name" (blur)="onNameBlur()"
+                    [class.is-invalid]="productForm.get('name')?.invalid && productForm.get('name')?.touched"
+                    [class.is-valid]="productForm.get('name')?.valid && productForm.get('name')?.touched" />
+            </div>
+
+
+            <!-- Description Input -->
+            <div class="col-12">
+                <label for="description" class="form-label fw-medium">Description <span
+                        class="text-danger">*</span></label>
+                <textarea id="description" class="form-control" formControlName="description"
+                    placeholder="Enter product description" rows="4" (blur)="onDescriptionBlur()"
+                    [class.is-invalid]="productForm.get('description')?.invalid && productForm.get('description')?.touched"
+                    [class.is-valid]="productForm.get('description')?.valid && productForm.get('description')?.touched"></textarea>
+
+            </div>
+
         </div>
-
-        <!-- Description Input -->
-        <div>
-            <label for="description">Description*</label>
-            <textarea id="description" formControlName="description" placeholder="Product description"
-                (blur)="onDescriptionBlur()"
-                style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px;"></textarea>
-        </div>
-
     </div>
 </mat-dialog-content>
 
-<mat-dialog-actions align="end">
-    <button mat-button (click)="onCancel()">Cancel</button>
-    <button mat-raised-button [color]="productForm.valid || (isEdit && productForm.dirty) ? 'primary' : 'default'"
-        (click)="isEdit ? update() : save()" [disabled]="productForm.invalid">
+<mat-dialog-actions align="end" class="gap-2 p-3">
+    <button type="button" class="btn btn-outline-secondary" (click)="onCancel()">
+        Cancel
+    </button>
+    <button type="button" class="btn" [class.btn-primary]="productForm.valid || (isEdit && productForm.dirty)"
+        [class.btn-secondary]="productForm.invalid" (click)="isEdit ? update() : save()"
+        [disabled]="productForm.invalid">
         {{isEdit? "Update" : "Save"}}
     </button>
 </mat-dialog-actions>
