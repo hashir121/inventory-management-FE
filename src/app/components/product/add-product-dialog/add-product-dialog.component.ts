@@ -1,12 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ProductService } from '../../../services/product.service';
 import { AddResponse } from '../../../Models/AddResponse';
 import { ToastrService } from 'ngx-toastr';
+import { GetPaginatedProduct } from '../../../Models/Product/GetPaginatedProduct';
+import { UpdateResponse } from '../../../Models/UpdateResponse';
 
 @Component({
   selector: 'app-add-product-dialog',
@@ -19,11 +21,18 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './add-product-dialog.component.scss'
 })
 export class AddProductDialogComponent {
-
+  isEdit: boolean = false;
   constructor(private dialogRef: MatDialogRef<AddProductDialogComponent>,
+    @Inject(MAT_DIALOG_DATA)
+    public data: {
+      isEdit: boolean;
+      product: GetPaginatedProduct;
+    },
     private productService: ProductService,
     private toastr: ToastrService
-  ) { }
+  ) {
+    this.isEdit = data.isEdit;
+  }
   productForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
     description: new FormControl('', [Validators.required])
@@ -33,7 +42,14 @@ export class AddProductDialogComponent {
     this.dialogRef.close(false);
   }
 
-  onSubmit() {
+  ngOnInit() {
+    if (this.isEdit) {
+      this.productForm.controls.name.setValue(this.data.product.name ?? "")
+      this.productForm.controls.description.setValue(this.data.product.description ?? "")
+
+    }
+  }
+  save() {
     if (this.productForm.invalid) {
       return;
     }
@@ -56,6 +72,33 @@ export class AddProductDialogComponent {
         this.toastr.error(err.message, "Error")
       }
 
+    })
+
+  }
+
+  update() {
+    if (this.productForm.invalid || !this.productForm.dirty) {
+      return;
+    }
+
+    const params = {
+      id: this.data.product.id,
+      name: this.productForm.controls.name.value,
+      description: this.productForm.controls.description.value
+    }
+    this.productService.update(params).subscribe({
+      next: (res: UpdateResponse) => {
+        if (res.success) {
+          this.toastr.success(res.message, "Success")
+          this.dialogRef.close(true);
+        }
+        else {
+          this.toastr.error(res.message, "Error")
+        }
+      },
+      error: (err: Error) => {
+        this.toastr.error(err.message, "Error")
+      }
     })
 
   }

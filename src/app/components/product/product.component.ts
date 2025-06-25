@@ -13,11 +13,22 @@ import { PaginatedRequest } from '../../Models/PaginatedRequest';
 import { PagedList } from '../../Models/Product/PagedList';
 import { MatDialog } from '@angular/material/dialog';
 import { AddProductDialogComponent } from './add-product-dialog/add-product-dialog.component';
+import { MatMenuModule } from '@angular/material/menu';
+
 
 @Component({
     selector: 'app-product',
     standalone: true,
-    imports: [HttpClientModule, MatPaginatorModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule, MatTableModule],
+    imports: [HttpClientModule,
+        MatPaginatorModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatButtonModule,
+        MatIconModule,
+        MatTableModule,
+        MatMenuModule,
+        MatIconModule,
+        MatButtonModule],
     templateUrl: './product.component.html',
     styleUrl: './product.component.scss'
 })
@@ -86,6 +97,10 @@ export class ProductComponent {
                 top: '50px',
                 right: '0'
             },
+            data: {
+                isEdit: false,
+                product: null
+            }
 
         });
 
@@ -114,6 +129,32 @@ export class ProductComponent {
         this.pageIndex = event.pageIndex;
         this.pageSize = event.pageSize;
         this.loadData();
+    }
+
+
+    onAdd(elem: GetPaginatedProduct) {
+
+    }
+    onEdit(elem: GetPaginatedProduct) {
+        const dialogRef = this.dialog.open(AddProductDialogComponent, {
+            width: '600px',
+            height: '900px',
+            position: {
+                top: '50px',
+                right: '0'
+            },
+            data: { isEdit: true, product: elem }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                this.searchText = "";
+                this.sortBy = this.defaultSortBy
+                this.sortDirection = this.defaultSortDirection
+                this.pageIndex = 0
+                this.loadData();
+            }
+        });
     }
 
 }

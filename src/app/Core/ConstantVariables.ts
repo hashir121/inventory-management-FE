@@ -5,6 +5,7 @@ export const URLS = {
             AddProduct: 'add-product',
             GetAll: 'get-all',
             Add: 'add',
+            Update: 'update',
         }
     }
 }

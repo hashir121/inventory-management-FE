@@ -1,4 +1,4 @@
-<h2 mat-dialog-title>Add Product</h2>
+<h2 mat-dialog-title>{{isEdit? "Edit Product" : "Add Product"}}</h2>
 
 <mat-dialog-content [formGroup]="productForm">
     <div style="display: flex; flex-direction: column; gap: 16px;">
@@ -22,7 +22,8 @@
 
 <mat-dialog-actions align="end">
     <button mat-button (click)="onCancel()">Cancel</button>
-    <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="productForm.invalid">
-        Save
+    <button mat-raised-button [color]="productForm.valid || (isEdit && productForm.dirty) ? 'primary' : 'default'"
+        (click)="isEdit ? update() : save()" [disabled]="productForm.invalid">
+        {{isEdit? "Update" : "Save"}}
     </button>
 </mat-dialog-actions>

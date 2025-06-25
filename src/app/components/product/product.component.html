@@ -31,10 +31,32 @@
         </ng-container>
 
         <!-- Name Column -->
+        <!-- Name Column with Kebab Menu -->
         <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef class="custom-header">Name</th>
-            <td mat-cell *matCellDef="let element" class="custom-cell">{{ element.name }}</td>
+            <td mat-cell *matCellDef="let element" class="custom-cell"
+                style="display: flex; align-items: center; justify-content: space-between;">
+                <span>{{ element.name }}</span>
+
+                <!-- Kebab Menu Trigger -->
+                <button mat-icon-button [matMenuTriggerFor]="menu" style="margin-left: auto;">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+
+                <!-- Kebab Menu -->
+                <mat-menu #menu="matMenu">
+                    <button mat-menu-item (click)="onAdd(element)">
+                        <mat-icon>delete</mat-icon>
+                        <span>Delete</span>
+                    </button>
+                    <button mat-menu-item (click)="onEdit(element)">
+                        <mat-icon>edit</mat-icon>
+                        <span>Edit</span>
+                    </button>
+                </mat-menu>
+            </td>
         </ng-container>
+
 
         <!-- Description Column -->
         <ng-container matColumnDef="description">
