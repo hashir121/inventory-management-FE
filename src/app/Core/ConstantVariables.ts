@@ -2,11 +2,18 @@ export const URLS = {
     Controller: {
         Product: {
             Name: 'Product/',
-            AddProduct: 'add-product',
             GetAll: 'get-all',
             Add: 'add',
             Update: 'update',
             Delete: 'delete'
+        },
+        Purchase: {
+            Name: 'Purchase/',
+            GetAll: 'get-all',
+            Add: 'add',
+            Update: 'update',
+            Delete: 'delete',
+            GetProductList: 'get-product-list',
         }
     }
 }

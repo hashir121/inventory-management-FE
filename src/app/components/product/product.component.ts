@@ -10,7 +10,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatTableModule } from '@angular/material/table';
 import { GetPaginatedProduct } from '../../Models/Product/GetPaginatedProduct';
 import { PaginatedRequest } from '../../Models/PaginatedRequest';
-import { PagedList } from '../../Models/Product/PagedList';
+import { PagedList } from '../../Models/PagedList';
 import { MatDialog } from '@angular/material/dialog';
 import { AddProductDialogComponent } from './add-product-dialog/add-product-dialog.component';
 import { MatMenuModule } from '@angular/material/menu';

@@ -34,8 +34,8 @@
         Cancel
     </button>
     <button type="button" class="btn" [class.btn-primary]="productForm.valid || (isEdit && productForm.dirty)"
-        [class.btn-secondary]="productForm.invalid" (click)="isEdit ? update() : save()"
-        [disabled]="productForm.invalid">
+        [class.btn-secondary]="productForm.invalid || (isEdit && !productForm.dirty)"
+        (click)="isEdit ? update() : save()" [disabled]="productForm.invalid">
         {{isEdit? "Update" : "Save"}}
     </button>
 </mat-dialog-actions>

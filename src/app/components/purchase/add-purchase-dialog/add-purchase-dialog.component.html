@@ -1,0 +1,65 @@
+<h2 mat-dialog-title class="mb-3">{{isEdit? "Edit Purchase" : "Add Purchase"}}</h2>
+
+<div [formGroup]="purchaseForm" class="p-0">
+    <div class="container-fluid">
+        <div class="row g-3">
+
+            <!-- Product Dropdown -->
+            <div class="col-12">
+                <label for="product" class="form-label fw-medium">Product <span class="text-danger">*</span></label>
+                <mat-form-field appearance="outline" class="w-100">
+                    <mat-select formControlName="productId" placeholder="Select a product" id="product">
+                        <mat-option *ngFor="let product of productsDropDown" [value]="product.id">
+                            {{product.name}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="purchaseForm.get('productId')?.hasError('required')">
+                        Product is required
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <!-- Quantity Input -->
+            <div class="col-md-6 col-12">
+                <label for="quantity" class="form-label fw-medium">Quantity <span class="text-danger">*</span></label>
+                <input id="quantity" type="number" class="form-control" formControlName="quantity"
+                    placeholder="Enter quantity" (keydown)="preventDecimal($event)"
+                    [class.is-invalid]="purchaseForm.get('quantity')?.invalid && purchaseForm.get('quantity')?.touched"
+                    [class.is-valid]="purchaseForm.get('quantity')?.valid && purchaseForm.get('quantity')?.touched" />
+
+            </div>
+
+            <!-- Price Input -->
+            <div class="col-md-6 col-12">
+                <label for="price" class="form-label fw-medium">Price <span class="text-danger">*</span></label>
+                <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input id="price" type="number" class="form-control" formControlName="price" placeholder="0.00"
+                        [class.is-invalid]="purchaseForm.get('price')?.invalid && purchaseForm.get('price')?.touched"
+                        [class.is-valid]="purchaseForm.get('price')?.valid && purchaseForm.get('price')?.touched" />
+
+                </div>
+                <mat-error *ngIf="purchaseForm.get('price')?.invalid">
+                    <div *ngIf="purchaseForm.get('price')?.errors?.['required']">Price is required</div>
+                    <div *ngIf="purchaseForm.get('price')?.errors?.['invalidPrice']">
+                        {{ purchaseForm.get('price')?.errors?.['invalidPrice']?.message }}
+                    </div>
+                </mat-error>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+
+<mat-dialog-actions align="end" class="gap-2 p-3">
+    <button type="button" class="btn btn-outline-secondary" (click)="onCancel()">
+        Cancel
+    </button>
+    <button type="button" class="btn" [class.btn-primary]="purchaseForm.valid || (isEdit && purchaseForm.dirty)"
+        [class.btn-secondary]="purchaseForm.invalid || (isEdit && !purchaseForm.dirty)"
+        (click)="isEdit ? update() : save()" [disabled]="purchaseForm.invalid">
+        {{isEdit? "Update" : "Save"}}
+    </button>
+</mat-dialog-actions>
