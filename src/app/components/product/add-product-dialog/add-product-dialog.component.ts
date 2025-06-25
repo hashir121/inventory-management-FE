@@ -103,4 +103,20 @@ export class AddProductDialogComponent {
 
   }
 
+  onNameBlur() {
+    const name = this.productForm.get('name')?.value?.trim() || '';
+    this.productForm.patchValue({
+      name
+    })
+  }
+  onDescriptionBlur() {
+    const description = this.productForm.get('description')?.value?.trim() || '';
+
+    this.productForm.patchValue({
+
+      description
+    });
+
+  }
+
 }
